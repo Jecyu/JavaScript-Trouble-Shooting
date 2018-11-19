@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>支持列排序的组件</title>
+  <style>
+    .sortable-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .sortable {
+      text-align: center;
+      border-collapse: collapse;
+    }
+
+    .sortable td {
+      position: relative;
+      min-width: 10em;
+      border: 1px solid hsl(0, 0%, 80%);
+      padding: 1em;
+    }
+
+    .sortable-thead {
+      color: #fff;
+      background-color: hsl(0, 0%, 20%);
+    }
+
+    .sortable-tool {
+      position: absolute;
+      top: 50%;
+      right: 1em;
+      transform: translateY(-50%);
+    }
+
+    .arrow-up {
+      position: absolute;
+      top: -1em;
+
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 8px solid #fff;
+      cursor: pointer;
+    }
+
+    .arrow-up--active {
+      border-bottom-color: hsl(50, 100%, 80%);
+    }
+
+    .arrow-down {
+      position: absolute;
+      bottom: -1em;
+
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 8px solid #fff;
+      cursor: pointer;
+    }
+
+    .arrow-down--active {
+      border-top-color: hsl(50, 100%, 80%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sortable-container">
+    <table id="my-sortable" class="sortable">
+      <!-- <thead class="sortable-thead">
+        <tr>
+          <td>姓名</td>
+          <td>语文
+            <span class="sortable-tool">
+              <i class="arrow-up"></i>
+              <i class="arrow-down"></i>
+            </span>
+          </td>
+          <td>英语
+            <span class="sortable-tool">
+              <i class="arrow-up"></i>
+              <i class="arrow-down"></i>
+            </span>
+          </td>
+          <td>数学
+            <span class="sortable-tool">
+              <i class="arrow-up"></i>
+              <i class="arrow-down"></i>
+            </span>
+          </td>
+          <td>总分
+            <span class="sortable-tool">
+              <i class="arrow-up"></i>
+              <i class="arrow-down"></i>
+            </span>
+          </td>
+        </tr>
+      </thead>
+      <tbody class="sortable-tbody">
+        <tr>
+          <td>小鸣</td>
+          <td>80</td>
+          <td>90</td>
+          <td>70</td>
+          <td>240</td>
+        </tr>
+        <tr>
+          <td>小黄</td>
+          <td>90</td>
+          <td>60</td>
+          <td>90</td>
+          <td>240</td>
+        </tr>
+        <tr>
+          <td>小蓝</td>
+          <td>60</td>
+          <td>100</td>
+          <td>70</td>
+          <td>230</td>
+        </tr>
+      </tbody> -->
+    </table>
+  </div>
+  <script src="./Sortable.js">
+  </script>
+  <script>
+    var config = {
+      names: ["姓名", "语文", "数学", "英语", "总计"],
+      data: [
+        {
+          'name': "小鸣",
+          'chinese': 80,
+          'math': 90,
+          'english': 70,
+          'sum': 240
+        },
+        {
+          'name': "小黄",
+          'chinese': 90,
+          'math': 60,
+          'english': 90,
+          'sum': 240
+        },
+        {
+          'name': "小蓝",
+          'chinese': 60,
+          'math': 100,
+          'english': 70,
+          'sum': 230
+        },
+      ]
+    };
+
+    var a = new Sortable('my-sortable', config);
+  </script>
+</body>
+
+</html>

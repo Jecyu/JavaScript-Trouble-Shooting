@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>京东轮播图</title>
+  <style>
+    #my-slider {
+      position: relative;
+      width: 790px;
+      height: 340px;
+    }
+
+    .slider-list ul {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    .slider-list__item,
+    .slider-list__item--selected {
+      position: absolute;
+      text-align: center;
+      transition: opacity 1s;
+      opacity: 0;
+    }
+
+    .slider-list__item--selected {
+      transition: opacity 1s;
+      opacity: 1;
+    }
+
+    .slider-list__control {
+      position: relative;
+      display: table;
+
+      padding: 5px;
+      margin: auto;
+      border-radius: 12px;
+      bottom: 30px;
+
+    }
+
+    .slider-list__next,
+    .slider-list__previous {
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      overflow: hidden;
+
+      height: 50px;
+      width: 30px;
+      margin-top: -25px;
+      border: none;
+
+      text-align: center;
+      font-size: 24px;
+      line-height: 50px;
+      background: transparent;
+      color: white;
+      background: rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .slider-list__previous {
+      left: 0;
+    }
+
+    .slider-list__next {
+      right: 0;
+    }
+
+    /* 鼠标 hover 时，显示上一页和下一页按钮 */
+
+    #my-slider:hover .slider-list__previous {
+      opacity: 1;
+    }
+
+    #my-slider:hover .slider-list__next {
+      opacity: 1;
+    }
+
+    .slider-list__previous::after {
+      content: '<';
+    }
+
+    .slider-list__next::after {
+      content: '>';
+    }
+
+    .slider-list__control-buttons,
+    .slider-list__control-buttons--selected {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      margin: 0 5px;
+
+      background-color: #fff;
+      cursor: pointer;
+    }
+
+    .slider-list__control-buttons--selected {
+      background-color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="my-slider" class="slider-list">
+    <ul>
+      <li class="slider-list__item--selected">
+        <img src="https://p5.ssl.qhimg.com/t0119c74624763dd070.png" alt="">
+      </li>
+      <li class="slider-list__item">
+        <img src="https://p4.ssl.qhimg.com/t01adbe3351db853eb3.jpg" alt="">
+      </li>
+      <li class="slider-list__item">
+        <img src="https://p2.ssl.qhimg.com/t01645cd5ba0c3b60cb.jpg" alt="">
+      </li>
+      <li class="slider-list__item">
+        <img src="https://p4.ssl.qhimg.com/t01331ac159b58f5478.jpg" alt="">
+      </li>
+    </ul>
+    <a class="slider-list__next"></a>
+    <a class="slider-list__previous"></a>
+    <div class="slider-list__control">
+      <span class="slider-list__control-buttons--selected"></span>
+      <span class="slider-list__control-buttons"></span>
+      <span class="slider-list__control-buttons"></span>
+      <span class="slider-list__control-buttons"></span>
+    </div>
+  </div>
+</body>
+<script src="./Slider.js"></script>
+<script>
+  const slider = new Slider('my-slider');
+  setInterval(() => {
+    slider.slideNext();
+  }, 3000);
+</script>
+
+</html>

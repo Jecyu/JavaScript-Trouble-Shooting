@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    #root {
+      width: 300px;
+      border: 6px green solid;
+    }
+
+    table {
+      white-space: nowrap;
+    }
+
+    thead {
+      background-color: white;
+    }
+
+    td,
+    th {
+      background-color: white;
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+
+    #wrapper {
+      height: 150px;
+      overflow: auto;
+    }
+  </style>
+  <script src="./bundle.js"></script>
+</head>
+
+<body>
+  <div style="width:300px;border:6px green solid;" id="wrapper">
+    <table border="1" width="100%" id="tblNeedsScrolling">
+      <thead>
+        <tr>
+          <th>Header 1</th>
+          <th>Header 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>row 1, cell 1</td>
+          <td>row 1, cell 2</td>
+        </tr>
+        <tr>
+          <td>row 2, cell 1</td>
+          <td>row 2, cell 2</td>
+        </tr>
+        <tr>
+          <td>row 3, cell 1</td>
+          <td>row 3, cell 2</td>
+        </tr>
+        <tr>
+          <td>row 4, cell 1</td>
+          <td>row 4, cell 2</td>
+        </tr>
+        <tr>
+          <td>row 5, cell 1</td>
+          <td>row 5, cell 2</td>
+        </tr>
+        <tr>
+          <td>row 6, cell 1</td>
+          <td>row 6, cell 2</td>
+        </tr>
+        <tr>
+          <td>row 7, cell 1</td>
+          <td>row 7, cell 2</td>
+        </tr>
+        <tr>
+          <td>row 8, cell 1</td>
+          <td>row 8, cell 2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    document.getElementById("wrapper").addEventListener("scroll", function () {
+      var translate = "translate(0," + this.scrollTop + "px)";
+      console.log(translate);
+      this.querySelector("thead").style.msTransform = translate;
+      // var allTh = this.querySelectorAll("th");
+      // for (let i = 0; i < allTh.length; i++) {
+      //   allTh[i].style.transform = translate;
+      // }
+    });
+  </script>
+</body>
+
+</html>
