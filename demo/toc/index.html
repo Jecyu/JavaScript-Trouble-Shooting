@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>git 版本控制</title>
+    <style>
+      #TOC {
+        position: fixed;
+        right: 10px;
+        border: solid black 1px;
+        margin: 10px;
+        padding: 10px;
+
+        background: #fff;
+      }
+      .TOCEntry {
+        font-family: sans-serif;
+      }
+      .TOCEntry a {
+        text-decoration: none;
+      }
+      .TOCLevel1 {
+        font-size: 16pt;
+        font-weight: bold;
+      }
+      .TOCLevel2 {
+        font-size: 12pt;
+        margin-left: 0.5in;
+      }
+      .TOCLevel3 {
+        font-size: 12pt;
+        margin-left: 1in;
+      }
+      .TOCSectNum:after {
+        content: ": ";
+      }
+
+      .TOCSectNum {
+        /* display: none; */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wmd-preview" class="wmd-preview">
+      <div class="md-section-divider"></div>
+      <div class="md-section-divider"></div>
+      <h1 data-anchor-id="umrz" id="git-版本控制">git 版本控制</h1>
+      <p data-anchor-id="3ljh"><code>技术碎片</code> <code>blog</code></p>
+      <hr />
+      <div class="md-section-divider"></div>
+      <h2 data-anchor-id="cuef" id="版本控制">版本控制</h2>
+      <p data-anchor-id="8n9o">
+        中心化版本系统 <br />
+        分布式版本系统
+      </p>
+      <div class="md-section-divider"></div>
+      <h2 data-anchor-id="mel8" id="git-基础">git 基础</h2>
+      <p data-anchor-id="ff57">
+        <strong>Git 有三种状态，你的文件可能处于其中之一:</strong>
+      </p>
+      <ul data-anchor-id="838d">
+        <li>
+          已提交(committed) <br />
+          <ul>
+            <li>已提交表示数据已经安全的保存在本地数据库中。</li>
+          </ul>
+        </li>
+        <li>
+          已修改(modified) <br />
+          <ul>
+            <li>已修改表示修改了文件，但还没保存到数据库中。</li>
+          </ul>
+        </li>
+        <li>
+          已暂存(staged)。 <br />
+          <ul>
+            <li>
+              已暂存表示对已修改文件的当前版本做了标记，使之包含在下次提交的快照中。
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p data-anchor-id="tckc"><strong>三个工作区域</strong></p>
+      <ul data-anchor-id="p6q4">
+        <li>Git 仓库</li>
+        <li>工作目录</li>
+        <li>暂存区域</li>
+      </ul>
+      <p data-anchor-id="2qh8"><strong>基本的 Git 工作流程如下:</strong></p>
+      <ol data-anchor-id="f1lp">
+        <li>
+          在工作目录中修改文件。 <br />
+          <ul>
+            <li>工作目录中的文件状态：已跟踪或未跟踪</li>
+            <li>跟踪新文件，使用命令 <code>git add</code> 开始跟踪一个文件</li>
+          </ul>
+        </li>
+        <li>
+          暂存文件，将文件的快照放入暂存区域。 <br />
+          <ul>
+            <li>git add xxx</li>
+          </ul>
+        </li>
+        <li>提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录。</li>
+      </ol>
+      <div class="md-section-divider"></div>
+      <h3 data-anchor-id="gqmj" id="git-配置">git 配置</h3>
+      <p data-anchor-id="o9ce"><code>git config</code></p>
+      <p data-anchor-id="kpnj">获取帮助：</p>
+      <pre data-anchor-id="xqzo"><code>$ git help &lt;verb&gt;
+$ git &lt;verb&gt; --help
+$ man git-&lt;verb&gt;
+</code></pre>
+      <p data-anchor-id="asuy"><strong>ssh登录</strong></p>
+      <ol data-anchor-id="a9w0">
+        <li>
+          创建公钥、私钥 <br />
+          <code>ssh-keygen</code>
+        </li>
+        <li>
+          默认情况下，用户的 SSH 密钥存储在其 ~/.ssh 目录下 <br />
+          <code
+            >$ cd ~/.ssh $ ls <br />
+            authorized_keys2 id_dsa known_hosts <br />
+            config id_dsa.pub</code
+          >
+        </li>
+        <li>
+          复制各自的 .pub 文件内容到 git 服务器上 <br />
+          <code>$ cat ~/.ssh/id_rsa.pub</code>
+        </li>
+      </ol>
+      <p data-anchor-id="9jm9">注意：从远程仓库克隆时使用 ssh 地址才有xiao</p>
+      <div class="md-section-divider"></div>
+      <h3 data-anchor-id="qirc" id="git-基本操作">git 基本操作</h3>
+      <ul data-anchor-id="pc8d">
+        <li>
+          查看已暂存的和未暂存的修改 <br />
+          <ul>
+            <li>git diff</li>
+            <li>git diff --cached(--staged)</li>
+          </ul>
+        </li>
+      </ul>
+      <p data-anchor-id="b3ej">
+        请注意，<code>git diff</code>
+        本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。
+        所以有时候你一下子暂 存了所有更新过的文件后，运行git
+        diff后却什么也没有，就是这个原因。
+      </p>
+      <ul data-anchor-id="deen">
+        <li>
+          <p>提交更新</p>
+
+          <ul>
+            <li>
+              每次准备提交前，先用 git status 看下，是不是都已暂存起来了，
+              然后再运行提交命令 <code>git commit</code>
+            </li>
+            <li>
+              请记住，提交时记录的是放在暂存区域的快照。
+              任何还未暂存的仍然保持已修改状态，可以在下次提交时纳入
+              版本管理。每一次运行提交操作，都是对你项目作一次快照，以后可以回到这个状态，或者进行比较。
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p>移动文件</p>
+
+          <ul>
+            <li>
+              要在 Git 中对文件改名，可以这么做:
+              <code>$ git mv file_from file_to</code>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p>
+            查看提交历史 <br />
+            <code>git log</code> <br />
+            一个常用的选项是 -p，用来显示每次提交的内容差异。 你也可以加上 -2
+            来仅显示最近两次提交: <br />
+            当进行代码审查，或者快速浏览某个搭档提交
+            的<code>commit</code>所带来的变化的时候，这个参数就非常有用了
+          </p>
+        </li>
+        <li>
+          <p>撤销操作</p>
+
+          <ul>
+            <li>
+              有时候我们提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了。
+              此时，可以运行带有 --amend 选 项的提交命令尝试重新提交: <br />
+              <code>git commit --amend</code>
+            </li>
+            <li>
+              取消暂存的文件 <br />
+              <code>git reset HEAD &lt;file&gt;</code>
+            </li>
+            <li>
+              记住，在 Git 中任何 已提交的 东西几乎总是可以恢复的。
+              甚至那些被删除的分支中的提交或使用 --amend
+              选项覆盖的提交也可以恢复(阅读 数据恢复
+              了解数据恢复)。然而，任何你未提交的东西丢失后很可能再也找不到了。
+            </li>
+            <li>
+              合并提交 <br />
+              <code>$ git commit -m 'initial commit'</code> <br />
+              <code>$ git add forgotten_file</code> <br />
+              <code>$ git commit --amend</code>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p data-anchor-id="z4gz"><strong>远程仓库的使用</strong></p>
+      <p data-anchor-id="mh6l">
+        管理远程仓库包括了解如何添加远程仓库、移除无效的远程仓
+        库、管理不同的远程分支并定义它们是否被跟踪等等
+      </p>
+      <ul data-anchor-id="keip">
+        <li>
+          查看远程仓库 <br />
+          <ul>
+            <li><code>git remote</code></li>
+          </ul>
+        </li>
+        <li>
+          添加远程仓库 <br />
+          <ul>
+            <li><code>git remote add &lt;shortname&gt; &lt;url&gt;</code></li>
+          </ul>
+        </li>
+        <li>
+          从远程仓库中抓取与拉取 <br />
+          <ul>
+            <li><code>git fetch [remote-name]</code></li>
+            <li>
+              使用<code>git pull</code
+              >命令来自动的抓取然后合并远程分支到当前分支
+            </li>
+          </ul>
+        </li>
+        <li>
+          推送到远程分支 <br />
+          <ul>
+            <li><code>git push [remote-name] [branch- name]</code></li>
+            <li>
+              当你和其他人在同一时
+              间克隆，他们先推送到上游然后你再推送到上游，你的推送就会毫无疑问地被拒绝。
+              你必须先将他们的工作拉取下来并将其合并进你的工作后才能推送
+            </li>
+          </ul>
+        </li>
+        <li>
+          查看远程仓库 <br />
+          <ul>
+            <li><code>git remote show [remote-name]</code></li>
+          </ul>
+        </li>
+        <li>
+          远程仓库的移除与重命名 <br />
+          <ul>
+            <li><code>git remote rename source target</code></li>
+            <li><code>git remote rm</code></li>
+          </ul>
+        </li>
+      </ul>
+      <p data-anchor-id="2qz0"><strong>case描述：</strong></p>
+      <p data-anchor-id="tax8">
+        &nbsp; &nbsp;
+        git远程仓库已经建好了，本地文件已经存在了，现在要将本地代码推到git远程仓库保存。
+      </p>
+      <p data-anchor-id="4thf">解决办法如下：</p>
+      <ol data-anchor-id="eqzi">
+        <li>
+          （先进入项目文件夹）通过命令 git init 把这个目录变成git可以管理的仓库
+          <br />
+          <code>git init</code>
+        </li>
+        <li>
+          把文件添加到版本库中，使用命令 git add
+          .添加到暂存区里面去，不要忘记后面的小数点“.”，意为添加文件夹下的所有文件
+          <br />
+          <code>git add .</code>
+        </li>
+        <li>
+          用命令 git commit告诉Git，把文件提交到仓库。引号内为提交说明 <br />
+          <code>git commit -m 'first commit'</code>
+        </li>
+        <li>
+          关联到远程库 <br />
+          <code>git remote add origin 你的远程库地址</code> <br />
+          如： <br />
+          git remote add origin url
+        </li>
+        <li>
+          获取远程库与本地同步合并（如果远程库不为空必须做这一步，否则后面的提交会失败）
+          <br />
+          <code>git pull --rebase origin master</code>
+        </li>
+        <li>
+          把本地库的内容推送到远程，使用 git
+          push命令，实际上是把当前分支master推送到远程。执行此命令后会要求输入用户名、密码，验证通过后即开始上传。
+          <br />
+          <code>git push -u origin master</code>
+        </li>
+      </ol>
+      <div class="md-section-divider"></div>
+      <h2 data-anchor-id="3kzl" id="git-分支">git 分支</h2>
+      <p data-anchor-id="6jzr">
+        Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git
+        的默认分支名字是 master。 在多次提交操作之 <br />
+        后，你其实已经有一个指向最后那个提交对象的 master 分支。
+        它会在每次的提交操作中自动向前移动。
+      </p>
+      <ul data-anchor-id="4jzw">
+        <li>
+          分支创建 <br />
+          <ul>
+            <li>git branch testing</li>
+          </ul>
+        </li>
+        <li>
+          分支切换 <br />
+          <ul>
+            <li>git checkout testing</li>
+          </ul>
+        </li>
+        <li>
+          跟踪分支 <br />
+          <ul>
+            <li>git checkout --track origin/serverfix</li>
+          </ul>
+        </li>
+        <li>
+          推送本地分支到远程仓库 <br />
+          <ul>
+            <li>
+              远程先开好分支然后拉到本地 <br />
+              <ul>
+                <li>git checkout -b feature-branch origin/feature-branch</li>
+              </ul>
+            </li>
+            <li>
+              本地先开好分支然后推送到远程 <br />
+              <ul>
+                <li>git checkout -b feature-branch</li>
+                <li>git push origin feature-branch:feature-branch</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          合并分支 <br />
+          <ul>
+            <li>git merge dev</li>
+            <li>git push origin master:master</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <script src="../../utilities/generateTOC.js"></script>
+  </body>
+</html>
