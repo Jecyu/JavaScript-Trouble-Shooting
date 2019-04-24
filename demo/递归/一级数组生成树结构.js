@@ -126,26 +126,29 @@ function getTreeByOneLoop(tree) {
   return tree;
 }
 
-// TODO 扁平化树
+// 扁平化解开树
 // 分析，如果带有树
 // 1. 最终效果： flatTree(data)，传入树数据对象，返回扁平化的一级数组，并且带有父子id，如果是一级则父 id 为 -1
 // id, parentId 不能相同
-// 2. 递归关系 flatTree(data)
-// 3. 出口条件 children.length === 0
+// 2. 递归关系 flatTree(data) arr =  flatTree(data)
+// 3. 出口条件 children 不存在
 function flatTree(tree) {
-  const arr = [];
-  const obj = {};
-  // if (node.children.length > 0) {
-  //   flatTree();
-  // }
-  obj.label = node.label;
-  arr.push(obj);
+  let result = [];
+  tree.forEach(node => {
+    const children = node.children;
+    const label = node.label;
+    if (children) {
+      result = result.concat(flatTree(children)); // 每次更新保存 children 里面的数据
+    }
+    result.push({
+      // todo，存入父子 id，是否可以前端做    // 表格合并
+      label
+    });
+  });
+  return result;
 }
-
-function getflatTreeByCursive(tree) {
-  // const flatArray = [];
-  // tree.forEach(node => {
-  //   flatArray = [...flatTree(node), ...flatArray];
-  // });
-  // return flatArray;
-}
+console.log(flatTree(tree)); // 当前只拿到最外层的数据，需要把里面的数据也保存下来
+// 递归过程
+// flatTreen(tree)  result = []
+// result = [{ label: "三级 1-1-1"}]
+//
