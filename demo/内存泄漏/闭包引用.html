@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>闭包引用</title>
+  </head>
+  <body>
+    <button id="btn">没有外部引用测试：执行计时器</button>
+    <button id="btn2">有外部引用的测试：内存泄漏</button>
+    <button id="btn3">清除有外部引用</button>
+  </body>
+  <script>
+    let btn = document.querySelector("#btn");
+    let btn2 = document.querySelector("#btn2");
+    let btn3 = document.querySelector("#btn3");
+    btn.addEventListener("click", setTimer);
+    btn2.addEventListener("click", () => {
+      window.test = new Test(); // JS 对象开启定时器不断分配内存
+    });
+    btn3.addEventListener("click", () => {
+      window.test.destroy();
+      window.test = null;
+      console.warn("destroyed test instance..");
+    });
+
+    // 1. 如果是函数内部声明的变量，并且没有任何外部变量引用，则函数执行完就销毁。如果有引用，则该内部变量会一直游离于内存中
+    // 上面的不会导致内存泄漏
+    function setTimer() {
+      for (var i = 1; i <= 5; i++) {
+        setTimeout(
+          (function() {
+            var b = i; // install timer 的时候引用 i，并且 return 一个函数
+            return function() {
+              console.log("print: " + b);
+            };
+          })(),
+          i * 1000
+        );
+      }
+    }
+
+    // 2. 内部变量cache被外部的异步函数（定时器）引用。 如果不清除定时器，只是把Test类的实例手动设为null，也无济于事，cache还会继续占用内存。
+    function Test() {
+      this.obj = {};
+      this.index = 1;
+      this.timer = null;
+      var cache = []; // 内存变量，内存隐患
+      this.timer = window.setInterval(() => {
+        this.index += 1;
+        this.obj = {
+          val: "_timerxxxxxbbbbbxxx" + this.index,
+          junk: [...cache] // 这里存在着对 cache 的引用
+        };
+        cache.push(this.obj);
+        console.warn("create Test instance..");
+      }, 1);
+    }
+
+    // 添加销毁函数
+    Test.prototype.destroy = function() {
+      clearInterval(this.timer);
+    };
+  </script>
+</html>
